@@ -94,7 +94,7 @@ for lr in lrs:
             pbar = tqdm(range(1,n_epochs))
             #If the PPL is too high try to change the learning rate
 
-            learning_rates = []
+         
             for epoch in pbar:
                 loss = train_loop(train_loader, optimizer, criterion_train, model, clip)    
                 if epoch % 1 == 0: #per ogni epoca (visto che eil resto della divisione per 0 è 1)
@@ -103,9 +103,6 @@ for lr in lrs:
                     ppl_dev, loss_dev = eval_loop(dev_loader, criterion_eval, model) #valutazione del modello 
                     #scheduler.step(loss_dev)
 
-                    # Salva il learning rate attuale
-                    current_lr = optimizer.param_groups[0]['lr']
-                    learning_rates.append(current_lr)
 
                     losses_dev.append(np.asarray(loss_dev).mean())
                 
@@ -194,7 +191,7 @@ for lr in lrs:
             #Dopo la fine del ciclo di addestramento, il modello migliore viene trasferito alla CPU 
             best_model.to(DEVICE)
             final_ppl,  _ = eval_loop(test_loader, criterion_eval, best_model)   
-            lista_perplexity.append({'perplexity': final_ppl, 'model': punto_esericizio, 'lr': learning_rates}) 
+            lista_perplexity.append({'perplexity': final_ppl, 'model': punto_esericizio, 'lr': lr}) 
             print('Test ppl: ', final_ppl)
 
     with open('results', 'w') as f:
