@@ -57,7 +57,10 @@ punto_esericizio_lista = [1, 2, 3]
 
 
 for lr in lrs:
+
     for punto_esericizio in punto_esericizio_lista:
+        print(punto_esericizio)
+        print(lr)
         if punto_esericizio == 1:
             model = LM_LSTM_wt(emb_size, hid_size, vocab_len, pad_index=lang.word2id["<pad>"]).to(DEVICE)
             model.apply(init_weights)
@@ -144,7 +147,7 @@ for lr in lrs:
             logs = []
             ppl_dev = None
 
-            learning_rates = []
+
             for epoch in pbar:
                 #print('\nSTAMPO k', k)
                 #print('STAMPO T', T)
@@ -158,11 +161,7 @@ for lr in lrs:
                     sampled_epochs.append(epoch) #aggiungi epoca alla lista
                     losses_train.append(np.asarray(loss).mean()) #aggiunge la media delle perdite di addestramento di quell'epoca alla lista 
                     ppl_dev, loss_dev = eval_loop(dev_loader, criterion_eval, model) #valutazione del modello 
-                    #scheduler.step(loss_dev)
-                    # Salva il learning rate attuale
-                    current_lr = optimizer.param_groups[0]['lr']
-                    learning_rates.append(current_lr)
-
+                   
                     #CHECK
                     if k % L == 0 and T == 0:
                         logs.append(ppl_dev)
