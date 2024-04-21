@@ -45,7 +45,7 @@ hid_size = 300
 emb_size = 300
 lr = 1 
 clip = 5 # Clip the gradient
-n_epochs = 20
+n_epochs = 100
 patience = 3 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
 
 vocab_len = len(lang.word2id)
