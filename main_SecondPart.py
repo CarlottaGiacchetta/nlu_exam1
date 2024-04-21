@@ -43,7 +43,7 @@ test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collat
 #SET PARAMETRI MODELLO
 hid_size = 300
 emb_size = 300
-lrs = [1,2] 
+lrs = [2] 
 clip = 5 # Clip the gradient
 n_epochs = 100
 patience = 3 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
@@ -54,7 +54,7 @@ vocab_len = len(lang.word2id)
 lista_perplexity = []
 
 punto_esericizio_lista = [1, 2, 3]
-punto_esericizio_lista = [3]
+punto_esericizio_lista = [1, 2]
 
 
 for lr in lrs:
