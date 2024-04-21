@@ -43,7 +43,7 @@ test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collat
 #SET PARAMETRI MODELLO
 hid_size = 300
 emb_size = 300
-lrs = [0.001, 0.01, 0.1] 
+lrs = [1,2] 
 clip = 5 # Clip the gradient
 n_epochs = 100
 patience = 3 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
@@ -141,7 +141,7 @@ for lr in lrs:
             L = 2 #logging interval
             T = 0 #trigger interval
             k = 0 #step
-            n = 2 #non-monotone interval
+            n = 5 #non-monotone interval
             t = 0
             control = False #variabile che fa lo switch tra SGD e AvSGD
             logs = []
