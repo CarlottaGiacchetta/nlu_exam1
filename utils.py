@@ -245,7 +245,7 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control, clip=5):
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip) #limita la magnitudine dei gradienti per evitare il problema della "vanishing" o "exploding" gradient
         
         if control:  
-            print('CONTROL == TRUE YEEE')
+            #print('CONTROL == TRUE YEEE')
             tmp = []
             '''
             lista temporanea che mi salva i valori averaging 
