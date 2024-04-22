@@ -53,8 +53,8 @@ vocab_len = len(lang.word2id)
 
 lista_perplexity = []
 
-punto_esericizio_lista = [1, 2]
-punto_esericizio_lista = [3]
+punto_esericizio_lista = [1, 2, 3]
+punto_esericizio_lista = [1,2]
 
 
 for lr in lrs:
