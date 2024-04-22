@@ -41,7 +41,7 @@ dev_loader = DataLoader(dev_dataset, batch_size=128, collate_fn=partial(collate_
 test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collate_fn, pad_token=lang.word2id["<pad>"]))
 
 #SET PARAMETRI MODELLO
-hid_size = 200
+hid_size = 300
 emb_size = 200
 lrs = [1]
 clip = 5 # Clip the gradient
