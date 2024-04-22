@@ -15,7 +15,7 @@ from tqdm import tqdm
 import copy
 
 
-DEVICE = 'cuda:0' #cpu:0
+DEVICE = 'cpu:0' #cuda:0
 
 
 train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")
@@ -41,11 +41,11 @@ dev_loader = DataLoader(dev_dataset, batch_size=128, collate_fn=partial(collate_
 test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collate_fn, pad_token=lang.word2id["<pad>"]))
 
 #SET PARAMETRI MODELLO
-hid_size = 300
-emb_size = 300
-lrs = [2] 
+hid_size = 200
+emb_size = 200
+lrs = [1,2] 
 clip = 5 # Clip the gradient
-n_epochs = 100
+n_epochs = 10
 patience = 3 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
 
 vocab_len = len(lang.word2id)
@@ -85,7 +85,6 @@ for lr in lrs:
             model.apply(init_weights)
             #SET OTTIMIZZATORE
             optimizer = optim.ASGD(model.parameters(), lr=lr)
-            #scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=3, factor=0.1) # così mi cambia la lr in modo automatico
             criterion_train = nn.CrossEntropyLoss(ignore_index=lang.word2id["<pad>"])
             criterion_eval = nn.CrossEntropyLoss(ignore_index=lang.word2id["<pad>"], reduction='sum')
 
@@ -105,8 +104,7 @@ for lr in lrs:
                     sampled_epochs.append(epoch) #aggiungi epoca alla lista
                     losses_train.append(np.asarray(loss).mean()) #aggiunge la media delle perdite di addestramento di quell'epoca alla lista 
                     ppl_dev, loss_dev = eval_loop(dev_loader, criterion_eval, model) #valutazione del modello 
-                    #scheduler.step(loss_dev)
-
+                    
 
                     losses_dev.append(np.asarray(loss_dev).mean())
                 
@@ -154,7 +152,7 @@ for lr in lrs:
                 #print('STAMPO T', T)
                 #print('STAMPO t', t)
                 #print('STAMPO n', n)
-                #print('STAMPO control',control)
+                print('STAMPO control',control)
                 #print('STAMPO logs', logs)
                 loss = train_loop_NTAvSGD(train_loader, optimizer, criterion_train, model, control, clip)    
                 
