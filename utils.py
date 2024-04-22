@@ -10,7 +10,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 
 
-DEVICE = 'cpu:0' #cpu:0
+DEVICE = 'cuda:0' #cpu:0
 
 '''
 read the file and add <eos> - end of sentence - 

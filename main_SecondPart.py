@@ -15,7 +15,7 @@ from tqdm import tqdm
 import copy
 
 
-DEVICE = 'cpu:0' #cuda:0
+DEVICE = 'cuda:0' #cpu:0
 
 
 train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")
