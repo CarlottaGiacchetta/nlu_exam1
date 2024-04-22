@@ -57,7 +57,8 @@ punto_esericizio_lista = [0,1,2,3]
 for lr in lrs:
 
     for punto_esericizio in punto_esericizio_lista:
-
+        print(punto_esericizio)
+        print(lr)
         if punto_esericizio == 0:
             model = LM_RNN(emb_size, hid_size, vocab_len, pad_index=lang.word2id["<pad>"]).to(DEVICE)
             model.apply(init_weights)
