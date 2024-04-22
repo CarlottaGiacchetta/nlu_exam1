@@ -18,9 +18,9 @@ import copy
 DEVICE = 'cuda:0' #cpu:0
 
 
-train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")[-1000:]
-dev_raw = read_file("dataset/PennTreeBank/ptb.valid.txt")[-100:]
-test_raw = read_file("dataset/PennTreeBank/ptb.test.txt")[-100:]
+train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")
+dev_raw = read_file("dataset/PennTreeBank/ptb.valid.txt")
+test_raw = read_file("dataset/PennTreeBank/ptb.test.txt")
 
 #compute the vocabulary 
 vocab = get_vocab(train_raw, ["<pad>", "<eos>"])
