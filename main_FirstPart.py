@@ -52,7 +52,7 @@ vocab_len = len(lang.word2id)
 
 
 
-punto_esericizio_lista = [0,1,2,3]
+punto_esericizio_lista = [2,3]
 
 for lr in lrs:
 
