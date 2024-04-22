@@ -243,7 +243,8 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control, clip=5):
         #COMPUTE STOCHASTIC GRADIENT
         loss.backward() # calcola i gradienti di tutti i parametri rispetto alla perdita
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip) #limita la magnitudine dei gradienti per evitare il problema della "vanishing" o "exploding" gradient
-        
+        optimizer.step()
+
         if control:  
             #print('CONTROL == TRUE YEEE')
             tmp = []
@@ -262,7 +263,7 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control, clip=5):
                     p.data.copy_(tmp[i])
                     i = i + 1
 
-        optimizer.step()
+        
         
         
         
