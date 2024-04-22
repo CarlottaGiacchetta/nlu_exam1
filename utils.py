@@ -244,26 +244,23 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control, clip=5):
         loss.backward() # calcola i gradienti di tutti i parametri rispetto alla perdita
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip) #limita la magnitudine dei gradienti per evitare il problema della "vanishing" o "exploding" gradient
         
-        if control:
-            #print('CONTROL == TRUE YEEE')
-            tmp = []
-      
-            '''
-            lista temporanea che mi salva i valori averaging 
-            '''
-
-            for item in optimizer.state.items():
-                ax = item[1]['ax']
-                tmp.append(ax)
-
-            '''
-            sostituzione dei parametri con ax 
-            '''
-            i = 0
-            for param in optimizer.param_groups:
-                for p in param['params']:
-                    p.data.copy_(tmp[i])
-                    i = i + 1
+        #if control:  
+        #    #print('CONTROL == TRUE YEEE')
+        #    tmp = []
+        #    '''
+        #    lista temporanea che mi salva i valori averaging 
+        #    '''
+        #    for item in optimizer.state.items():
+        #        ax = item[1]['ax']
+        #        tmp.append(ax)
+        #    '''
+        #    sostituzione dei parametri con ax 
+        #    '''
+        #    i = 0
+        #    for param in optimizer.param_groups:
+        #        for p in param['params']:
+        #            p.data.copy_(tmp[i])
+        #            i = i + 1
 
         optimizer.step()
         
