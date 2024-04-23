@@ -6,15 +6,17 @@ import torch.optim as optim
 import torch.nn.functional as F
 import math
 import numpy as np
-from utils import read_file, get_vocab, collate_fn, train_loop, eval_loop, init_weights
-from nn_classes import LM_RNN, LM_LSTM, LM_LSTM_dropout
-from language_classes import Lang, PennTreeBank
 import torch.utils.data as data
 from functools import partial
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import copy
+
+from functions import  train_loop,  eval_loop, init_weights
+from utils import read_file, get_vocab, collate_fn
+from model import Lang, PennTreeBank, LM_LSTM, LM_LSTM_dropout
+
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu:0")
 
