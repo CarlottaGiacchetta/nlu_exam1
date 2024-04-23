@@ -174,9 +174,11 @@ for lr in lrs:
                             print('SWITCH CON AVERAGING')
                             optimizer.param_groups[0]['t0'] = T 
                             for item in optimizer.state.items():
-                                item[1]['step'] = torch.tensor(k)
+                                item[1]['step'] = torch.float32(k)
+                                
                             print(optimizer.param_groups[0]['t0'])
                             control = True
+                    
                     k = k + 1
 
 
