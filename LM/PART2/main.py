@@ -41,9 +41,9 @@ test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collat
 SET PARAMETRI DEL MODELLO 
 '''
 #PARAMETRI CHE POSSO CAMBIARE 
-hid_size = 600
-emb_size = 600
-lr = 10
+hid_size = 300
+emb_size = 300
+lr = 1
 clip = 5 # Clip the gradient
 n_epochs = 100
 patience = 3 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
