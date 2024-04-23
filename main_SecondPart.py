@@ -22,8 +22,8 @@ else:
 
 
 train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")
-dev_raw = read_file("dataset/PennTreeBank/ptb.valid.txt")  
-test_raw = read_file("dataset/PennTreeBank/ptb.test.txt")  
+dev_raw = read_file("dataset/PennTreeBank/ptb.valid.txt")
+test_raw = read_file("dataset/PennTreeBank/ptb.test.txt")
 
 #compute the vocabulary 
 vocab = get_vocab(train_raw, ["<pad>", "<eos>"])
@@ -173,6 +173,8 @@ for lr in lrs:
                             T = k
                             print('SWITCH CON AVERAGING')
                             optimizer.param_groups[0]['t0'] = T 
+                            for item in optimizer.state.items():
+                                item[1]['step'] = torch.tensor(k)
                             print(optimizer.param_groups[0]['t0'])
                             control = True
                     k = k + 1

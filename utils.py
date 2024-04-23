@@ -257,6 +257,8 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control,  clip=5):
             for item in optimizer.state.items():
                 ax = item[1]['ax']
                 tmp.append(ax)
+
+
             '''
             sostituzione dei parametri con ax 
             '''
@@ -265,6 +267,9 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control,  clip=5):
                 for p in param['params']:
                     p.data.copy_(tmp[i])
                     i = i + 1
+    
+  
+
 
         
         
