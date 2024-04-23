@@ -63,10 +63,10 @@ vocab_len = len(lang.word2id)
 #VARIABILI CONTROLLO CICLO 
 punto_esericizio_lista = [1, 2, 3]
 
-punto_esericizio_lista = [3]
 
 
 for punto_esericizio in punto_esericizio_lista:
+    patience = 6
     print('ESRCIZIO NUMERO: \t',punto_esericizio)
     print('------------------------PARAMETRI DEL MODELLO------------------------')
     print('--> learning rate: \t',lr)
