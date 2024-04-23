@@ -56,7 +56,7 @@ vocab_len = len(lang.word2id)
 
 #VARIABILI CONTROLLO CICLO 
 punto_esericizio_lista = [1,2,3]
-lrs = [1,10]
+lrs = [10]
 
 for lr in lrs:
 
