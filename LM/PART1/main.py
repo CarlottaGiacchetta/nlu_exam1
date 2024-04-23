@@ -126,7 +126,7 @@ for lr in lrs:
 
         #Dopo la fine del ciclo di addestramento, il modello migliore viene trasferito alla CPU 
         best_model.to(DEVICE)
-        model_path = f'esperimento{punto_esericizio}.pt'
+        model_path = f'esperimento{punto_esericizio}_{lr}.pt'
         torch.save(model.state_dict(), model_path)
         final_ppl,  _ = eval_loop(test_loader, criterion_eval, best_model)    
         print('Test ppl: ', final_ppl)
