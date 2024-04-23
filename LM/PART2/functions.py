@@ -112,7 +112,7 @@ def check(k , L, T, t, logs, ppl_dev, n, optimizer, control):
             print(optimizer.param_groups[0]['t0'])
             control = True
     k = k + 1
-    return k, T, logs, control 
+    return k, T, t, logs, control 
 
 '''
 Implementa un ciclo di training che utilizza NT-AvSGD (Non-Triggered Average Stochastic Gradient Descent)

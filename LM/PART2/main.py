@@ -126,7 +126,7 @@ for punto_esericizio in punto_esericizio_lista:
         '''
         if punto_esericizio == 1 or punto_esericizio == 2: #SGD
             loss = train_loop(train_loader, optimizer, criterion_train, model, clip)  
-        else: #NT-AvSGD
+        elif punto_esericizio == 3: #NT-AvSGD
             loss = train_loop_NTAvSGD(train_loader, optimizer, criterion_train, model, control, k, clip)
 
         
@@ -141,7 +141,7 @@ for punto_esericizio in punto_esericizio_lista:
             '''
             if punto_esericizio == 3:
                 print('CONTROL --> ', control)
-                k, T, logs, control = check(k , L, T, t, logs, ppl_dev, n, optimizer, control)
+                k, T, t, logs, control  = check(k , L, T, t, logs, ppl_dev, n, optimizer, control)
                 print('PARAMETRO STEP: \t',list(optimizer.state.values())[0]['step'])
                 print('PARAMETRO MU: \t',list(optimizer.state.values())[0]['mu'])
 
