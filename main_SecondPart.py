@@ -14,11 +14,7 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import copy
 
-cuda = True
-if cuda == True:
-    DEVICE = 'cuda:0' 
-else:
-    DEVICE = 'cpu:0' 
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu:0")
 
 
 train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")
@@ -157,7 +153,7 @@ for lr in lrs:
                 #print('STAMPO n', n)
                 print('STAMPO control',control)
                 #print('STAMPO logs', logs)
-                loss = train_loop_NTAvSGD(train_loader, optimizer, criterion_train, model, control, clip)    
+                loss = train_loop_NTAvSGD(train_loader, optimizer, criterion_train, model, control, k, clip)    
                 
                 if epoch % 1 == 0: #per ogni epoca (visto che eil resto della divisione per 0 è 1)
                     sampled_epochs.append(epoch) #aggiungi epoca alla lista
@@ -173,11 +169,13 @@ for lr in lrs:
                             T = k
                             print('SWITCH CON AVERAGING')
                             optimizer.param_groups[0]['t0'] = T 
-                            for item in optimizer.state.items():
-                                item[1]['step'] = k.to(torch.float32)
                                 
                             print(optimizer.param_groups[0]['t0'])
                             control = True
+                    
+                    #list(optimizer.state.values())[0]['step'] = torch.tensor(k, dtype=torch.float32)
+                    print(list(optimizer.state.values())[0]['step'])
+                    print(list(optimizer.state.values())[0]['mu'])
                     
                     k = k + 1
 

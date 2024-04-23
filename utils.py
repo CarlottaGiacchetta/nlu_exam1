@@ -9,11 +9,7 @@ from torch.utils.data import DataLoader
 import torch.optim as optim
 from torch.autograd import Variable
 
-cuda = True
-if cuda == True:
-    DEVICE = 'cuda:0' 
-else:
-    DEVICE = 'cpu:0' 
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu:0") 
 
 '''
 read the file and add <eos> - end of sentence - 
@@ -230,7 +226,7 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control, k, clip=5):
 '''
 
 
-def train_loop_NTAvSGD(data, optimizer, criterion, model, control,  clip=5):
+def train_loop_NTAvSGD(data, optimizer, criterion, model, control, k, clip=5):
     #imposta il modello in modalità di addestramento. 
     model.train()#Importante perché alcuni strati, come quelli che utilizzano il dropout o la normalizzazione batch, hanno comportamenti diversi durante l'addestramento e la valutazione.
     loss_array = []
@@ -246,6 +242,9 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control,  clip=5):
         #COMPUTE STOCHASTIC GRADIENT
         loss.backward() # calcola i gradienti di tutti i parametri rispetto alla perdita
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip) #limita la magnitudine dei gradienti per evitare il problema della "vanishing" o "exploding" gradient
+        for item in optimizer.state.items():
+            item[1]['step'] = torch.tensor(k, dtype=torch.float32)
+        
         optimizer.step()
 
         if control:  
