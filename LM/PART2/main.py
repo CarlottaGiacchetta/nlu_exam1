@@ -152,7 +152,7 @@ for punto_esericizio in punto_esericizio_lista:
             if  ppl_dev < best_ppl: #se la perplexity è migliorata
                 best_ppl = ppl_dev
                 best_model = copy.deepcopy(model).to('cpu')
-                patience = 3
+                patience = 6
             else:
                 patience -= 1
 
