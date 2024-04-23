@@ -43,7 +43,7 @@ SET PARAMETRI DEL MODELLO
 #PARAMETRI CHE POSSO CAMBIARE 
 hid_size = 600
 emb_size = 600
-lr = 10
+lr = 15
 clip = 5 # Clip the gradient
 n_epochs = 100
 patience = 6 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
