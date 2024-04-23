@@ -169,7 +169,7 @@ for lr in lrs:
                         logs.append(ppl_dev)
                         t = t + 1
                         
-                        if t > n and ppl_dev < min(logs[:k-n]): #forse da cambiare con k-n-1
+                        if t > n and ppl_dev > min(logs[:k-n]): #forse da cambiare con k-n-1
                             T = k
                             print('SWITCH CON AVERAGING')
                             optimizer.param_groups[0]['t0'] = T 
