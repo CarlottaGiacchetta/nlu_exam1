@@ -14,8 +14,11 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import copy
 
-
-DEVICE = 'cuda:0' #cpu:0
+cuda = False
+if cuda == True:
+    DEVICE = 'cuda:0' 
+else:
+    DEVICE = 'cpu:0' 
 
 
 train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")

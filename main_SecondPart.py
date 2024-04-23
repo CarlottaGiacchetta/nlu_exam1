@@ -14,13 +14,16 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import copy
 
-
-DEVICE = 'cuda:0' #cpu:0
+cuda = False
+if cuda == True:
+    DEVICE = 'cuda:0' 
+else:
+    DEVICE = 'cpu:0' 
 
 
 train_raw = read_file("dataset/PennTreeBank/ptb.train.txt")
-dev_raw = read_file("dataset/PennTreeBank/ptb.valid.txt")
-test_raw = read_file("dataset/PennTreeBank/ptb.test.txt")
+dev_raw = read_file("dataset/PennTreeBank/ptb.valid.txt")  
+test_raw = read_file("dataset/PennTreeBank/ptb.test.txt")  
 
 #compute the vocabulary 
 vocab = get_vocab(train_raw, ["<pad>", "<eos>"])
@@ -166,9 +169,11 @@ for lr in lrs:
                         logs.append(ppl_dev)
                         t = t + 1
                         
-                        if t > n and ppl_dev > min(logs[:k-n]): #forse da cambiare con k-n-1
+                        if t > n and ppl_dev < min(logs[:k-n]): #forse da cambiare con k-n-1
                             T = k
                             print('SWITCH CON AVERAGING')
+                            optimizer.param_groups[0]['t0'] = T 
+                            print(optimizer.param_groups[0]['t0'])
                             control = True
                     k = k + 1
 

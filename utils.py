@@ -9,8 +9,11 @@ from torch.utils.data import DataLoader
 import torch.optim as optim
 from torch.autograd import Variable
 
-
-DEVICE = 'cuda:0' #cpu:0
+cuda = False
+if cuda == True:
+    DEVICE = 'cuda:0' 
+else:
+    DEVICE = 'cpu:0' 
 
 '''
 read the file and add <eos> - end of sentence - 
@@ -227,7 +230,7 @@ def train_loop_NTAvSGD(data, optimizer, criterion, model, control, k, clip=5):
 '''
 
 
-def train_loop_NTAvSGD(data, optimizer, criterion, model, control, clip=5):
+def train_loop_NTAvSGD(data, optimizer, criterion, model, control,  clip=5):
     #imposta il modello in modalità di addestramento. 
     model.train()#Importante perché alcuni strati, come quelli che utilizzano il dropout o la normalizzazione batch, hanno comportamenti diversi durante l'addestramento e la valutazione.
     loss_array = []

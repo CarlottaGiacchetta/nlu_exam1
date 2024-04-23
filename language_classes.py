@@ -8,6 +8,7 @@ import torch.utils.data as data
 from functools import partial
 from torch.utils.data import DataLoader
 
+
 class Lang():
     def __init__(self, corpus, special_tokens=[]):
         self.word2id = self.get_vocab(corpus, special_tokens)

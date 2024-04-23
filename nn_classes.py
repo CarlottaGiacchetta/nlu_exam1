@@ -9,10 +9,6 @@ from torch.utils.data import DataLoader
 import torch.optim as optim
 from utils import VariationalDropout
 
-
-DEVICE = 'cuda:0' #cpu:0
-#DEVICE = 'cpu:0' #cpu:0
-
 class LM_RNN(nn.Module):
     def __init__(self, emb_size, hidden_size, output_size, pad_index=0, out_dropout=0.1,
                  emb_dropout=0.1, n_layers=1):
