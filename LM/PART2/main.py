@@ -41,12 +41,12 @@ test_loader = DataLoader(test_dataset, batch_size=128, collate_fn=partial(collat
 SET PARAMETRI DEL MODELLO 
 '''
 #PARAMETRI CHE POSSO CAMBIARE 
-hid_size = 300
-emb_size = 300
-lr = 1
+hid_size = 600
+emb_size = 600
+lr = 10
 clip = 5 # Clip the gradient
 n_epochs = 100
-patience = 3 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
+patience = 6 #è il numero di epoche di tolleranza dopo le quali si interrompe l'addestramento se non c'è miglioramento
 
 #VARIABILI UTILI PER IL PUNTO 3
 L = 2 #logging interval
@@ -144,6 +144,7 @@ for punto_esericizio in punto_esericizio_lista:
                 k, T, t, logs, control  = check(k , L, T, t, logs, ppl_dev, n, optimizer, control)
                 print('PARAMETRO STEP: \t',list(optimizer.state.values())[0]['step'])
                 print('PARAMETRO MU: \t',list(optimizer.state.values())[0]['mu'])
+
 
 
             losses_dev.append(np.asarray(loss_dev).mean())
