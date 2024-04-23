@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 import torch.optim as optim
 from torch.autograd import Variable
 
-cuda = False
+cuda = True
 if cuda == True:
     DEVICE = 'cuda:0' 
 else:

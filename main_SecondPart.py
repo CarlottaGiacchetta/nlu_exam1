@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import copy
 
-cuda = False
+cuda = True
 if cuda == True:
     DEVICE = 'cuda:0' 
 else:
