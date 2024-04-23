@@ -63,6 +63,8 @@ vocab_len = len(lang.word2id)
 #VARIABILI CONTROLLO CICLO 
 punto_esericizio_lista = [1, 2, 3]
 
+punto_esericizio_lista = [3]
+
 
 for punto_esericizio in punto_esericizio_lista:
     print('ESRCIZIO NUMERO: \t',punto_esericizio)
@@ -138,6 +140,7 @@ for punto_esericizio in punto_esericizio_lista:
             FA IL CHECK PER IL TRIGGER -> se rispetta le condizioni cambai control in True 
             '''
             if punto_esericizio == 3:
+                print('CONTROL --> ', control)
                 k, T, logs, control = check(k , L, T, t, logs, ppl_dev, n, optimizer, control)
                 print('PARAMETRO STEP: \t',list(optimizer.state.values())[0]['step'])
                 print('PARAMETRO MU: \t',list(optimizer.state.values())[0]['mu'])
