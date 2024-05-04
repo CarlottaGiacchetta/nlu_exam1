@@ -112,6 +112,7 @@ multiple_run = False
 model_list = [ModelIAS, ModelIAS_Bidirectional, ModelIAS_Bidirectional_drop]
 
 for lr in lr_list:
+    print(lr)
     for modelloo in model_list:
         print(modelloo)
         model = modelloo(hid_size, out_slot, out_int, emb_size, vocab_len, pad_index=PAD_TOKEN).to(device)
