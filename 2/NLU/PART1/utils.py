@@ -1,9 +1,10 @@
 #put all the functions needed to preprocess and load the dataset
 import json
-import random
-import numpy as np
+import torch
 from sklearn.model_selection import train_test_split
 from collections import Counter
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu:0")
 
 PAD_TOKEN = 0
 
@@ -95,3 +96,68 @@ def dictionries(train_raw, dev_raw, test_raw):
             intent2id[example['intent']] = len(intent2id)
 
     return w2id, slot2id, intent2id
+
+
+'''
+The padding function ensures all sequences have the same length by first finding the maximum 
+length among them and then appending the special 'PAD' token to shorter sequences until 
+they match this length.
+'''
+def padding(sequences):
+
+    splitted = [seq.split() for seq in sequences]
+    max_len = max([len(seq) for seq in splitted])
+    padded_seq = []
+    for seq in splitted:
+        diff = max_len - len(seq)
+        if diff != 0:
+            # Depending on the side of the addition we can get left or right padding
+            padded_seq.append(seq + ['PAD'] * diff)
+        else:
+            padded_seq.append(seq)
+    return padded_seq
+
+
+
+def collate_fn(data):
+    def merge(sequences):
+        '''
+        merge from batch * sent_len to batch * max_len 
+        '''
+        lengths = [len(seq) for seq in sequences]
+        max_len = 1 if max(lengths)==0 else max(lengths)
+        # Pad token is zero in our case
+        # So we create a matrix full of PAD_TOKEN (i.e. 0) with the shape 
+        # batch_size X maximum length of a sequence
+        padded_seqs = torch.LongTensor(len(sequences),max_len).fill_(PAD_TOKEN)
+        for i, seq in enumerate(sequences):
+            end = lengths[i]
+            padded_seqs[i, :end] = seq # We copy each sequence into the matrix
+        # print(padded_seqs)
+        padded_seqs = padded_seqs.detach()  # We remove these tensors from the computational graph
+        return padded_seqs, lengths
+    # Sort data by seq lengths
+    data.sort(key=lambda x: len(x['utterance']), reverse=True) 
+    new_item = {}
+    for key in data[0].keys():
+        new_item[key] = [d[key] for d in data]
+        
+    # We just need one length for packed pad seq, since len(utt) == len(slots)
+    src_utt, _ = merge(new_item['utterance'])
+    y_slots, y_lengths = merge(new_item["slots"])
+    intent = torch.LongTensor(new_item["intent"])
+    
+    src_utt = src_utt.to(device) # We load the Tensor on our selected device
+    y_slots = y_slots.to(device)
+    intent = intent.to(device)
+    y_lengths = torch.LongTensor(y_lengths).to(device)
+    
+    new_item["utterances"] = src_utt
+    new_item["intents"] = intent
+    new_item["y_slots"] = y_slots
+    new_item["slots_len"] = y_lengths
+    return new_item
+
+
+
+
