@@ -118,7 +118,7 @@ for lr in lr_list:
         model.apply(init_weights)
         optimizer = optim.Adam(model.parameters(), lr=lr)
         if multiple_run == False:
-            n_epochs = 20
+            n_epochs = 200
             patience = 3
             losses_train = []
             losses_dev = []
@@ -161,7 +161,7 @@ for lr in lr_list:
             out_int = len(lang.intent2id)
             vocab_len = len(lang.word2id)
 
-            n_epochs = 20
+            n_epochs = 200
             runs = 5
 
             slot_f1s, intent_acc = [], []
