@@ -232,6 +232,8 @@ class ModelIAS_Bidirectional_drop(nn.Module):
         # utterance.size() = batch_size X seq_len
         utt_emb = self.embedding(utterance) # utt_emb.size() = batch_size X seq_len X emb_size
 
+        utt_emb = self.dropout(utt_emb) # Apply dropout after embedding
+        
         # pack_padded_sequence avoid computation over pad tokens reducing the computational cost
         packed_input = pack_padded_sequence(utt_emb, seq_lengths.cpu().numpy(), batch_first=True)#exclude padding tokens
         # Process the batch --> passes the packed embeddings through the LSTM (encder), retrieving the encoded representation.
