@@ -1,0 +1,104 @@
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.0001
+dorp prob,0.1
+hid size,200
+emb size,300
+Slot F1,0.9342988343341576
+Intent Accuracy,0.9507278835386338
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.0001
+dorp prob,0.1
+hid size,300
+emb size,500
+Slot F1,0.9408630793819925
+Intent Accuracy,0.9451287793952967
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.0001
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.9335454224107458
+Intent Accuracy,0.9496080627099664
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.0001
+dorp prob,0.5
+hid size,300
+emb size,500
+Slot F1,0.9433962264150944
+Intent Accuracy,0.9462486002239642
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.01
+dorp prob,0.1
+hid size,200
+emb size,300
+Slot F1,0.9444249032711924
+Intent Accuracy,0.9451287793952967
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.01
+dorp prob,0.1
+hid size,300
+emb size,500
+Slot F1,0.8990057561486132
+Intent Accuracy,0.9361702127659575
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.01
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.9463276836158193
+Intent Accuracy,0.9451287793952967
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,0.01
+dorp prob,0.5
+hid size,300
+emb size,500
+Slot F1,0.9401588702559576
+Intent Accuracy,0.9361702127659575
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,1
+dorp prob,0.1
+hid size,200
+emb size,300
+Slot F1,0.7285091543156059
+Intent Accuracy,0.7838745800671892
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,1
+dorp prob,0.1
+hid size,300
+emb size,500
+Slot F1,0.7694191742477257
+Intent Accuracy,0.7760358342665173
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,1
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.5382123117972175
+Intent Accuracy,0.7458006718924972
+
+
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,1
+dorp prob,0.5
+hid size,300
+emb size,500
+Slot F1,0.6312292358803987
+Intent Accuracy,0.7189249720044792
