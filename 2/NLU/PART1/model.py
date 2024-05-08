@@ -109,7 +109,7 @@ defines a nn model for intent classification and slot fillng
 '''
 class ModelIAS(nn.Module):
 
-    def __init__(self, hid_size, out_slot, out_int, emb_size, vocab_len, n_layer=1, pad_index=0):
+    def __init__(self, hid_size, out_slot, out_int, emb_size, vocab_len, prob_drop, n_layer=1, pad_index=0):
         super(ModelIAS, self).__init__()
         # hid_size = Hidden size
         # out_slot = number of slots (output size for slot filling)
@@ -117,7 +117,7 @@ class ModelIAS(nn.Module):
         # emb_size = word embedding size
         
         self.embedding = nn.Embedding(vocab_len, emb_size, padding_idx=pad_index)
-        
+
         self.utt_encoder = nn.LSTM(emb_size, hid_size, n_layer, bidirectional=False, batch_first=True)    
         self.slot_out = nn.Linear(hid_size, out_slot)
         self.intent_out = nn.Linear(hid_size, out_int)
@@ -157,7 +157,7 @@ class ModelIAS(nn.Module):
 
 class ModelIAS_Bidirectional(nn.Module):
 
-    def __init__(self, hid_size, out_slot, out_int, emb_size, vocab_len, n_layer=1, pad_index=0):
+    def __init__(self, hid_size, out_slot, out_int, emb_size, vocab_len, prob_drop, n_layer=1, pad_index=0):
         super(ModelIAS_Bidirectional, self).__init__()
         # hid_size = Hidden size
         # out_slot = number of slots (output size for slot filling)
@@ -209,7 +209,7 @@ class ModelIAS_Bidirectional(nn.Module):
 
 class ModelIAS_Bidirectional_drop(nn.Module):
 
-    def __init__(self, hid_size, out_slot, out_int, emb_size, vocab_len, n_layer=1, pad_index=0):
+    def __init__(self, hid_size, out_slot, out_int, emb_size, vocab_len, prob_drop, n_layer=1, pad_index=0):
         super(ModelIAS_Bidirectional_drop, self).__init__()
         # hid_size = Hidden size
         # out_slot = number of slots (output size for slot filling)
@@ -225,14 +225,16 @@ class ModelIAS_Bidirectional_drop(nn.Module):
         self.intent_out = nn.Linear(hid_size * 2, out_int)#output per intent classification
 
         # Dropout layer How/Where do we apply it?
-        self.dropout = nn.Dropout(0.1)
+        self.emb_dropout = nn.Dropout(prob_drop)
+
+        self.out_dropout = nn.Dropout(prob_drop)
 
     def forward(self, utterance, seq_lengths):
         #convert utterance in embedding
         # utterance.size() = batch_size X seq_len
         utt_emb = self.embedding(utterance) # utt_emb.size() = batch_size X seq_len X emb_size
 
-        utt_emb = self.dropout(utt_emb) # Apply dropout after embedding
+        utt_emb = self.emb_dropout(utt_emb) # Apply dropout after embedding
         
         # pack_padded_sequence avoid computation over pad tokens reducing the computational cost
         packed_input = pack_padded_sequence(utt_emb, seq_lengths.cpu().numpy(), batch_first=True)#exclude padding tokens
@@ -243,9 +245,12 @@ class ModelIAS_Bidirectional_drop(nn.Module):
         utt_encoded, input_sizes = pad_packed_sequence(packed_output, batch_first=True)
 
         #add the dropout layer 
-        utt_encoded = self.dropout(utt_encoded)
+        utt_encoded = self.out_dropout(utt_encoded)
+    
         #Final state for both directions
         last_hidden = torch.cat((hidden[-2], hidden[-1]), dim=1)
+
+        last_hidden = self.out_dropout(last_hidden)
 
         # Is this another possible way to get the last hiddent state? (Why?)
         # utt_encoded.permute(1,0,2)[-1]
