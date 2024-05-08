@@ -5,7 +5,8 @@ import torch
 import torch.utils.data as data
 import torch.nn as nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-
+from transformers import BertTokenizer, BertModel
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 
 PAD_TOKEN = 0
@@ -15,25 +16,23 @@ PAD_TOKEN = 0
 class Lang():
     def __init__(self, words, intents, slots, cutoff=0):
         self.word2id = self.w2id(words, cutoff=cutoff, unk=True)
-        
         self.slot2id = self.lab2id(slots)
         self.intent2id = self.lab2id(intents, pad=False)
         self.id2word = {v:k for k, v in self.word2id.items()}
         self.id2slot = {v:k for k, v in self.slot2id.items()}
         self.id2intent = {v:k for k, v in self.intent2id.items()}
-        
+        #
     def w2id(self, elements, cutoff=None, unk=True):
-        print('STAMPA ELEMENTI')
-        print(elements)
-        print('END STAMPA ELEMENTI')
         vocab = {'pad': PAD_TOKEN}
         if unk:
             vocab['unk'] = len(vocab)
-
-        count = Counter(elements)
-        for k, v in count.items():
-            if v > cutoff:
-                vocab[k] = len(vocab)
+        for elem in elements:
+            tokenized_word = tokenizer.tokenize(elem)
+            tokens = tokenizer.convert_tokens_to_ids(tokenized_word)
+            vocab[elem] = tokens[0]
+        print('VOCAB ITEMS')
+        print(vocab.items())
+        
         return vocab
     
     def lab2id(self, elements, pad=True):
@@ -41,7 +40,11 @@ class Lang():
         if pad:
             vocab['pad'] = PAD_TOKEN
         for elem in elements:
-                vocab[elem] = len(vocab)
+            tokenized_word = tokenizer.tokenize(elem)
+            tokens = tokenizer.convert_tokens_to_ids(tokenized_word)
+            vocab[elem] = tokens[0]
+        print('OH CAZZ, è GIUSTA STA ROBA?????')
+        print(vocab)
         return vocab
     
 

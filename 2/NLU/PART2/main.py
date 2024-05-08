@@ -13,7 +13,7 @@ from transformers import BertTokenizer, BertModel
 import csv
 
 from utils import load_data, split_DevSet, dictionries, padding, collate_fn
-from model import Lang, IntentsAndSlots,  ModelIAS, ModelIAS_Bidirectional, ModelIAS_Bidirectional_drop
+from model2 import Lang, IntentsAndSlots,  ModelIAS, ModelIAS_Bidirectional, ModelIAS_Bidirectional_drop
 from functions import init_weights, train_loop, eval_loop
 
 
@@ -84,14 +84,15 @@ for i in range(len(sequences)):
 '''
 CRATE THE DATASETS
 '''
-train_dataset = IntentsAndSlots(train_raw, lang)
+train_dataset = IntentsAndSlots(train_raw, lang) #qui vienen fatta la tokenizzazione
 dev_dataset = IntentsAndSlots(dev_raw, lang)
 test_dataset = IntentsAndSlots(test_raw, lang)
 train_loader = DataLoader(train_dataset, batch_size=128, collate_fn=collate_fn,  shuffle=True)
 dev_loader = DataLoader(dev_dataset, batch_size=64, collate_fn=collate_fn)
 test_loader = DataLoader(test_dataset, batch_size=64, collate_fn=collate_fn)
 
-
+print('STO STAMPANDO IL DATASET')
+print(train_loader)
 '''
 TRAINING
 '''
