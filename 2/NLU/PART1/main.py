@@ -109,7 +109,7 @@ vocab_len = len(lang.word2id)
 criterion_slots = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 criterion_intents = nn.CrossEntropyLoss() # Because we do not have the pad token
 
-multiple_run = True
+multiple_run = False
 model_list = [ModelIAS, ModelIAS_Bidirectional, ModelIAS_Bidirectional_drop]
 
 
@@ -126,7 +126,7 @@ for modelloo in model_list:
             
             for hidemb in hid_size_emb_size:
 
-                path_saveresults = os.path.join('NLU','PART1','RISULTATI', f"{count}")
+                path_saveresults = os.path.join('NLU','PART1','RISULTATI', f"{count}.csv")
 
                 count = count + 1
                 print(f"MODELLO: {modelloo}, \t learning rate: {lr}, \t probabilità dropout: {prob_drop}, \t hidden & embedding size: {hidemb}")
