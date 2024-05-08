@@ -1,0 +1,102 @@
+Model,<class 'model.ModelIAS'>
+lr,0.0001
+dorp prob,0.1
+hid size,200
+emb size,300
+Slot F1,0.923158079831194
+Intent Accuracy,0.93505039193729
+
+
+Model,<class 'model.ModelIAS'>
+lr,0.0001
+dorp prob,0.1
+hid size,300
+emb size,500
+Slot F1,0.9275770925110132
+Intent Accuracy,0.9428891377379619
+
+
+Model,<class 'model.ModelIAS'>
+lr,0.0001
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.9201266713581985
+Intent Accuracy,0.9372900335946248
+
+Model,<class 'model.ModelIAS'>
+lr,0.0001
+dorp prob,0.5
+hid size,300
+emb size,500
+Slot F1,0.9239643418982696
+Intent Accuracy,0.9451287793952967
+
+Model,<class 'model.ModelIAS'>
+lr,0.01
+dorp prob,0.1
+hid size,200
+emb size,300
+Slot F1,0.9149159663865546
+Intent Accuracy,0.9193729003359462
+
+Model,<class 'model.ModelIAS'>
+lr,0.01
+dorp prob,0.1
+hid size,300
+emb size,500
+Slot F1,0.9207573632538569
+Intent Accuracy,0.9081746920492721
+
+
+Model,<class 'model.ModelIAS'>
+lr,0.01
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.9231578947368421
+Intent Accuracy,0.910414333706607
+
+
+Model,<class 'model.ModelIAS'>
+lr,0.01
+dorp prob,0.5
+hid size,300
+emb size,500
+Slot F1,0.9217238346525946
+Intent Accuracy,0.916013437849944
+
+
+Model,<class 'model.ModelIAS'>
+lr,1
+dorp prob,0.1
+hid size,200
+emb size,300
+Slot F1,0.6779602420051858
+Intent Accuracy,0.6349384098544233
+
+
+Model,<class 'model.ModelIAS'>
+lr,1
+dorp prob,0.1
+hid size,300
+emb size,500
+Slot F1,0.7246276411499826
+Intent Accuracy,0.6226203807390818
+
+
+Model,<class 'model.ModelIAS'>
+lr,1
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.6502376342193277
+Intent Accuracy,0.6091825307950728
+
+Model,<class 'model.ModelIAS'>
+lr,1
+dorp prob,0.5
+hid size,300
+emb size,500
+Slot F1,0.7166695338035437
+Intent Accuracy,0.6864501679731243
