@@ -187,7 +187,7 @@ for modelloo in model_list:
                     slot_f1s, intent_acc = [], []
                     for x in tqdm(range(0, runs)):
                         model = modelloo(hid_size, out_slot, out_int, emb_size,
-                                        vocab_len, pad_index=PAD_TOKEN).to(device)
+                                        vocab_len, prob_drop, pad_index=PAD_TOKEN).to(device)
                         model.apply(init_weights)
 
                         optimizer = optim.Adam(model.parameters(), lr=lr)
