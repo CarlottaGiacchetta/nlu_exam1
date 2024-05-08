@@ -109,7 +109,7 @@ vocab_len = len(lang.word2id)
 criterion_slots = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 criterion_intents = nn.CrossEntropyLoss() # Because we do not have the pad token
 
-multiple_run = True
+multiple_run = False
 model_list = [ModelIAS, ModelIAS_Bidirectional, ModelIAS_Bidirectional_drop]
 
 
