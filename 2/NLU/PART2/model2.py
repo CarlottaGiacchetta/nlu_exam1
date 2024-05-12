@@ -18,9 +18,14 @@ class Lang():
         self.word2id = self.w2id(words, cutoff=cutoff, unk=True)
         self.slot2id = self.lab2id(slots)
         self.intent2id = self.lab2id(intents, pad=False)
-        self.id2word = {v:k for k, v in self.word2id.items()}
+        '''self.id2word = {v:k for k, v in self.word2id.items()}'''
         self.id2slot = {v:k for k, v in self.slot2id.items()}
         self.id2intent = {v:k for k, v in self.intent2id.items()}
+        self.id2word = {tokenizer.decode(v) for k, v in self.word2id.items()}
+      
+        '''self.id2word = {tokenizer.decode(v) for k, v in self.word2id.items()}
+        self.id2slot = {tokenizer.decode(v) for k, v in self.slot2id.items()}
+        self.id2intent = {tokenizer.decode(v) for k, v in self.intent2id.items()}'''
         #
     def w2id(self, elements, cutoff=None, unk=True):
         vocab = {'pad': PAD_TOKEN}
@@ -29,7 +34,9 @@ class Lang():
         for elem in elements:
             tokenized_word = tokenizer.tokenize(elem)
             tokens = tokenizer.convert_tokens_to_ids(tokenized_word)
-            vocab[elem] = tokens[0]
+            vocab[elem] = tokens
+
+
         print('VOCAB ITEMS')
         print(vocab.items())
         
@@ -43,10 +50,18 @@ class Lang():
             tokenized_word = tokenizer.tokenize(elem)
             tokens = tokenizer.convert_tokens_to_ids(tokenized_word)
             vocab[elem] = tokens[0]
-        print('OH CAZZ, è GIUSTA STA ROBA?????')
         print(vocab)
         return vocab
-    
+    '''
+    def lab2id(self, elements, pad=True):
+        vocab = {}
+        if pad:
+            vocab['pad'] = PAD_TOKEN
+        for elem in elements:
+            vocab[elem] = len(vocab)
+        print(vocab)
+        return vocab
+    '''
 
 '''
  provides a structure to handle datasets that involve mapping utterances to numerical representations 

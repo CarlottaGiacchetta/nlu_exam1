@@ -3,6 +3,10 @@ import json
 import torch
 from sklearn.model_selection import train_test_split
 from collections import Counter
+import torch.nn as nn
+
+from conll import evaluate
+from sklearn.metrics import classification_report
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu:0")
 
@@ -161,3 +165,38 @@ def collate_fn(data):
 
 
 
+
+def modify_slot(train_raw, tokenizer):
+    train_raw1 = []
+    for i, raw in enumerate(train_raw):
+        train_raw1.append({'utterance': [], 'slots': [], 'intent': ''})
+        train_raw1[i]['utterance'] = raw['utterance']
+        train_raw1[i]['intent'] = raw['intent']
+        phrase = raw['utterance'].split()
+        encoding = tokenizer.encode(phrase, padding = True)
+        slots =  raw['slots'].split()
+        
+        slot = []
+        
+        for j, word in enumerate(phrase):
+            
+            if len(tokenizer.tokenize(word)) != 1:
+        
+                for a in range(len(tokenizer.tokenize(word))):
+                    if a != 0 and slots[j] != 'O':
+                        slot.append(slots[j].replace('B-', 'I-'))
+
+                    else: 
+                        slot.append(slots[j])
+            else:
+                slot.append(slots[j])
+
+        train_raw1[i]['slots'] = ' '.join(slot)
+    
+    return train_raw1
+
+
+
+
+
+    

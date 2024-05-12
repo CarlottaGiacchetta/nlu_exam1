@@ -21,6 +21,8 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu:0") # cuda
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1" # Used to report errors on CUDA side
 PAD_TOKEN = 0
 
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", force_download=True) # Download the tokeniz
+
 '''
 READ FILES
 '''
@@ -91,8 +93,27 @@ train_loader = DataLoader(train_dataset, batch_size=128, collate_fn=collate_fn, 
 dev_loader = DataLoader(dev_dataset, batch_size=64, collate_fn=collate_fn)
 test_loader = DataLoader(test_dataset, batch_size=64, collate_fn=collate_fn)
 
+print(train_dataset)
+
 print('STO STAMPANDO IL DATASET')
-print(train_loader)
+for sample in train_loader:
+    print(sample)
+    print('CONTROLLO UTTERANCES TOKEN')
+    print("sample['utterances']",sample['utterances'])
+    for token_ids in sample['utterances'].tolist():
+        print(token_ids)
+        print(tokenizer.decode(token_ids))
+
+    print('CONTROLLO SLOT TOKEN')
+    print("sample['slots_len']", sample['slots_len'])
+    for token_ids in sample['slots_len'].tolist():
+        print(token_ids)
+        print(tokenizer.decode(token_ids))
+
+    exit()
+
+
+
 '''
 TRAINING
 '''

@@ -30,9 +30,14 @@ def train_loop(data, optimizer, criterion_slots, criterion_intents, model, clip=
     model.train()
     loss_array = []
     for sample in data:
+        sample['attention'] = torch.stack(sample['attention'])
         optimizer.zero_grad() # Zeroing the gradient
-        slots, intent = model(sample['utterances'], sample['slots_len'])
+        intent, slots = model(sample['utterances'], sample['attention'])
+        print(intent[2].shape)
+        print(intent[0])
+        print(sample['intents'])
         loss_intent = criterion_intents(intent, sample['intents'])
+
         loss_slot = criterion_slots(slots, sample['y_slots'])
         loss = loss_intent + loss_slot # In joint training we sum the losses. 
                                        # Is there another way to do that?
