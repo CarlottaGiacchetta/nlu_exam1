@@ -25,8 +25,8 @@ PAD_TOKEN = 0
 '''
 READ FILES
 '''
-tmp_train_raw = load_data(os.path.join('dataset','ATIS','train.json'))[:200]
-test_raw = load_data(os.path.join('dataset','ATIS','test.json'))[:100]
+tmp_train_raw = load_data(os.path.join('dataset','ATIS','train.json'))
+test_raw = load_data(os.path.join('dataset','ATIS','test.json'))
 print('Train samples:', len(tmp_train_raw))
 print('Test samples:', len(test_raw))
 
@@ -180,7 +180,7 @@ for lr in lr_list:
             print('Intent Accuracy:', intent_test['accuracy'])
 
 
-            '''#SALVA I RISULTATI
+            #SALVA I RISULTATI
             with open(path_saveresults, mode='w', newline='') as file_csv:
                 # Crea un writer CSV
                 csv_writer = csv.writer(file_csv)
@@ -201,7 +201,7 @@ for lr in lr_list:
             plt.plot(sampled_epochs, losses_dev, label='Dev loss')
             plt.legend()
             plt.show()
-            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))'''
+            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))
         
             
                 
