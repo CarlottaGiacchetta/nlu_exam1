@@ -121,10 +121,10 @@ class IntentsAndSlots(data.Dataset):
 
 
 class BertForJointIntentAndSlot(nn.Module):
-    def __init__(self, model, num_intents, num_slots):
+    def __init__(self, model, num_intents, num_slots, dropout_prob):
         super().__init__()
         self.bert = model
-        self.dropout = nn.Dropout(0.1)
+        self.dropout = nn.Dropout(dropout_prob)
 
         self.intent_classifier = nn.Linear(self.bert.config.hidden_size, num_intents)
         self.slot_classifier = nn.Linear(self.bert.config.hidden_size, num_slots)
