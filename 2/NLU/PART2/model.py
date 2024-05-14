@@ -110,9 +110,6 @@ class IntentsAndSlots(data.Dataset):
             inputs.append(inputs_tmp)
 
 
-        print(inputs)
-        print(attention)
-
         
         return inputs, attention
     
