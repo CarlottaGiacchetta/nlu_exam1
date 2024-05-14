@@ -157,7 +157,7 @@ def collate_fn(data):
     slots = slots.to(device)
     intent = intent.to(device)
     src_att = src_att.to(device)
-    y_lengths = torch.LongTensor(y_lengths).to(device)
+    y_lengths = torch.LongTensor(y_lenghts).to(device)
     
     new_item["utterance"] = src_utt
     new_item["intent"] = intent
