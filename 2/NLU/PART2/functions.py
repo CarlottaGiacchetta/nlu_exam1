@@ -62,7 +62,7 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang):
     with torch.no_grad(): # It used to avoid the creation of computational graph
         for sample in data:
             slots, intents = model(sample['utterance'], sample['slots'])
-            loss_intent = criterion_intents(intents, sample['intents'])
+            loss_intent = criterion_intents(intents, sample['intent'])
             loss_slot = criterion_slots(slots, sample['y_slots'])
             loss = loss_intent + loss_slot
             loss_array.append(loss.item())
@@ -70,7 +70,7 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang):
             # Get the highest probable class
             out_intents = [lang.id2intent[x]
                            for x in torch.argmax(intents, dim=1).tolist()]
-            gt_intents = [lang.id2intent[x] for x in sample['intents'].tolist()]
+            gt_intents = [lang.id2intent[x] for x in sample['intent'].tolist()]
             ref_intents.extend(gt_intents)
             hyp_intents.extend(out_intents)
 
