@@ -186,6 +186,7 @@ for lr in lr_list:
             plt.plot(sampled_epochs, losses_dev, label='Dev loss')
             plt.legend()
             plt.show()
+            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))
         
             
                 
