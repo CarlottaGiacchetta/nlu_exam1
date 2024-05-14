@@ -132,7 +132,7 @@ epochs_list = [10, 30, 50]
 lr_list = [5e-5]
 
 
-count = 19
+count = 50
 for lr in lr_list:
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
