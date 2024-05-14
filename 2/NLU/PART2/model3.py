@@ -36,7 +36,7 @@ class Lang():
  It uses the lang Class for mapping: the utterances are mapped to word IDs (utt_ids), 
  the slots to slot IDs (slot_ids), and the intents to intent IDs (intent_ids)
 '''
-class IntentsAndSlots (data.Dataset):
+class IntentsAndSlots(data.Dataset):
     # Mandatory methods are __init__, __len__ and __getitem__
     def __init__(self, dataset, tokenizer, lang):
         self.utterances = []
@@ -45,6 +45,7 @@ class IntentsAndSlots (data.Dataset):
         self.tokenizer = tokenizer
 
         for x in dataset:
+ 
             self.utterances.append(x['utterance'])
             self.slots.append(x['slots'])
             self.intents.append(x['intent'])
@@ -52,6 +53,7 @@ class IntentsAndSlots (data.Dataset):
         self.utt_ids, self.utt_attention = self.mapping_seq_new(self.utterances, self.tokenizer)
         self.slot_ids = self.mapping_seq(self.slots, lang.slot2id)
         self.intent_ids = self.mapping_lab(self.intents, lang.intent2id)
+            
 
     def __len__(self):
         return len(self.utterances)
@@ -66,6 +68,8 @@ class IntentsAndSlots (data.Dataset):
         slots = torch.Tensor(self.slot_ids[idx])
         intent = self.intent_ids[idx]
         sample = {'utterance': utt, 'slots': slots, 'intent': intent, 'attention': att}
+
+
         return sample
 
     # Auxiliary methods
@@ -88,16 +92,16 @@ class IntentsAndSlots (data.Dataset):
         max = 0
         for seq in data:
             encoded = tokenizer(seq)
-            if len(encoded['input_ids'] ) > max:
-                max = len(encoded['input_ids'] )
+ 
         for seq in data:
             encoded = tokenizer(seq) 
             attention_tmp = encoded['attention_mask']
-            inputs_tmp = encoded['input_ids'] 
             
-            padding_length = max - len(inputs_tmp)
-            inputs.append(torch.tensor(inputs_tmp + ([tokenizer.pad_token_id] * padding_length), dtype=torch.long))
-            attention.append(torch.tensor(attention_tmp + ([0] * padding_length), dtype=torch.long))
+            inputs_tmp = encoded['input_ids'] 
+
+            attention.append(attention_tmp)
+            inputs.append(inputs_tmp)
+
         
         return inputs, attention
     
@@ -126,13 +130,19 @@ class BertForJointIntentAndSlot(nn.Module):
         self.slot_classifier = nn.Linear(self.bert.config.hidden_size, num_slots)
 
     def forward(self, input_ids, attention_mask):
-        outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
-        sequence_output = self.dropout(outputs.last_hidden_state)
+        outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask, return_dict = True)
 
 
-        intent_logits = self.intent_classifier(sequence_output[:,0,:])
+        sequence_output = outputs.last_hidden_state
+        pooled_output = outputs.pooler_output
+
+        sequence_output = self.dropout(sequence_output)
+        pooled_output = self.dropout(pooled_output)
+
+
+        intent_logits = self.intent_classifier(pooled_output)
         slot_logits = self.slot_classifier(sequence_output)
-
+        slot_logits = slot_logits.permute(0, 2, 1)
 
         return intent_logits, slot_logits
 

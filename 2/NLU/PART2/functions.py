@@ -30,15 +30,15 @@ def train_loop(data, optimizer, criterion_slots, criterion_intents, model, clip=
     model.train()
     loss_array = []
     for sample in data:
-        sample['attention'] = torch.stack(sample['attention'])
+        
+        #sample['attention'] = torch.stack(sample['attention'])
         optimizer.zero_grad() # Zeroing the gradient
-        intent, slots = model(sample['utterances'], sample['attention'])
-        print(intent[2].shape)
-        print(intent[0])
-        print(sample['intents'])
-        loss_intent = criterion_intents(intent, sample['intents'])
+        intent, slots = model(sample['utterance'], sample['attention'])
+   
 
-        loss_slot = criterion_slots(slots, sample['y_slots'])
+        loss_intent = criterion_intents(intent, sample['intent'])
+        
+        loss_slot = criterion_slots(slots, sample['slots'])
         loss = loss_intent + loss_slot # In joint training we sum the losses. 
                                        # Is there another way to do that?
         loss_array.append(loss.item())
@@ -61,7 +61,7 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang):
     #softmax = nn.Softmax(dim=1) # Use Softmax if you need the actual probability
     with torch.no_grad(): # It used to avoid the creation of computational graph
         for sample in data:
-            slots, intents = model(sample['utterances'], sample['slots_len'])
+            slots, intents = model(sample['utterances'], sample['slots'])
             loss_intent = criterion_intents(intents, sample['intents'])
             loss_slot = criterion_slots(slots, sample['y_slots'])
             loss = loss_intent + loss_slot

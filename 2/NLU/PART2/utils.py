@@ -148,18 +148,23 @@ def collate_fn(data):
         
     # We just need one length for packed pad seq, since len(utt) == len(slots)
     src_utt, _ = merge(new_item['utterance'])
-    y_slots, y_lengths = merge(new_item["slots"])
+    slots, y_lenghts = merge(new_item["slots"])
+    src_att, _ = merge(new_item["attention"])
+
     intent = torch.LongTensor(new_item["intent"])
     
     src_utt = src_utt.to(device) # We load the Tensor on our selected device
-    y_slots = y_slots.to(device)
+    slots = slots.to(device)
     intent = intent.to(device)
+    src_att = src_att.to(device)
     y_lengths = torch.LongTensor(y_lengths).to(device)
     
-    new_item["utterances"] = src_utt
-    new_item["intents"] = intent
-    new_item["y_slots"] = y_slots
+    new_item["utterance"] = src_utt
+    new_item["intent"] = intent
+    new_item["slots"] = slots
+    new_item["attention"] = src_att
     new_item["slots_len"] = y_lengths
+    
     return new_item
 
 
@@ -191,7 +196,10 @@ def modify_slot(train_raw, tokenizer):
             else:
                 slot.append(slots[j])
 
-        train_raw1[i]['slots'] = ' '.join(slot)
+        ciao = ' '.join(slot)
+        train_raw1[i]['slots'] = "O " + ciao + " O"
+
+ 
     
     return train_raw1
 

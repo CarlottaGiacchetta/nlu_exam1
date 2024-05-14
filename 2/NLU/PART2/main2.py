@@ -67,7 +67,8 @@ corpus = train_raw1 + dev_raw1 + test_raw1
 intents = set([line['intent'] for line in corpus])
 slots = set(sum([line['slots'].split() for line in corpus],[]))
 lang = Lang(intents, slots,  cutoff=0)
-train_dataset = IntentsAndSlots(train_raw, tokenizer, lang)
+
+train_dataset = IntentsAndSlots(train_raw1, tokenizer, lang)
 dev_dataset = IntentsAndSlots(dev_raw1, tokenizer, lang)
 test_dataset = IntentsAndSlots(test_raw1, tokenizer, lang)
 train_loader = DataLoader(train_dataset, batch_size=128, collate_fn=collate_fn,  shuffle=True)
@@ -75,7 +76,7 @@ dev_loader = DataLoader(dev_dataset, batch_size=64, collate_fn=collate_fn)
 test_loader = DataLoader(test_dataset, batch_size=64, collate_fn=collate_fn)
 
 
-
+ 
 
 '''
 for sample in train_loader:
@@ -118,7 +119,7 @@ patience = 3
 losses_train = []
 losses_dev = []
 sampled_epochs = []
-for x in tqdm(range(1, 20)):
+for x in tqdm(range(1, 3)):
     loss = train_loop(train_loader, optimizer, criterion_slots,
                                         criterion_intents, modellooo, clip = 5)
     if x % 5 == 0: # We check the performance every 5 epochs
