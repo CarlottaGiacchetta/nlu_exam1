@@ -119,7 +119,7 @@ patience = 3
 losses_train = []
 losses_dev = []
 sampled_epochs = []
-for x in tqdm(range(1, 100)):
+for x in tqdm(range(1, 50)):
     loss = train_loop(train_loader, optimizer, criterion_slots,
                                         criterion_intents, modellooo, clip = 5)
     if x % 5 == 0: # We check the performance every 5 epochs
