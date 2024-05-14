@@ -114,19 +114,19 @@ optimizer = torch.optim.Adam(model.parameters(), lr=3e-5)
 
 modellooo = BertForJointIntentAndSlot(model, num_intents = len(lang.intent2id), num_slots = len(lang.slot2id)).to(device)
 
-
+best_f1 = 0
 patience = 3
 losses_train = []
 losses_dev = []
 sampled_epochs = []
-for x in tqdm(range(1, 20)):
+for x in tqdm(range(1, 200)):
     loss = train_loop(train_loader, optimizer, criterion_slots,
                                         criterion_intents, modellooo, clip = 5)
     if x % 5 == 0: # We check the performance every 5 epochs
         sampled_epochs.append(x)
         losses_train.append(np.asarray(loss).mean())
         results_dev, intent_res, loss_dev = eval_loop(dev_loader, criterion_slots,
-                                                      criterion_intents, modellooo, lang)
+                                                      criterion_intents, modellooo, lang, tokenizer)
         losses_dev.append(np.asarray(loss_dev).mean())
 
         f1 = results_dev['total']['f']
@@ -141,7 +141,7 @@ for x in tqdm(range(1, 20)):
             break # Not nice but it keeps the code clean
 
 results_test, intent_test, _ = eval_loop(test_loader, criterion_slots,
-                                                            criterion_intents, modellooo, lang)
+                                                            criterion_intents, modellooo, lang, tokenizer)
 print('Slot F1: ', results_test['total']['f'])
 print('Intent Accuracy:', intent_test['accuracy'])
    

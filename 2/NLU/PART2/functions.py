@@ -49,7 +49,7 @@ def train_loop(data, optimizer, criterion_slots, criterion_intents, model, clip=
     return loss_array
 
 
-def eval_loop(data, criterion_slots, criterion_intents, model, lang):
+def eval_loop(data, criterion_slots, criterion_intents, model, lang, tokenizer):
     model.eval()
     loss_array = []
 
@@ -61,11 +61,14 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang):
     #softmax = nn.Softmax(dim=1) # Use Softmax if you need the actual probability
     with torch.no_grad(): # It used to avoid the creation of computational graph
         for sample in data:
-            slots, intents = model(sample['utterance'], sample['slots'])
-            print(intents)
-            print(sample['intent'])
+        
+            intents, slots = model(sample['utterance'], sample['attention'])
             loss_intent = criterion_intents(intents, sample['intent'])
-            loss_slot = criterion_slots(slots, sample['y_slots'])
+            print('INIZIO CHECK SLOTS')
+            for i, aaaa in enumerate(sample['slots']):
+                print(aaaa)
+                print(slots[i])
+            loss_slot = criterion_slots(slots, sample['slots'])
             loss = loss_intent + loss_slot
             loss_array.append(loss.item())
             # Intent inference
@@ -81,9 +84,11 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang):
             for id_seq, seq in enumerate(output_slots):
                 length = sample['slots_len'].tolist()[id_seq]
                 utt_ids = sample['utterance'][id_seq][:length].tolist()
-                gt_ids = sample['y_slots'][id_seq].tolist()
+                gt_ids = sample['slots'][id_seq].tolist()
                 gt_slots = [lang.id2slot[elem] for elem in gt_ids[:length]]
-                utterance = [lang.id2word[elem] for elem in utt_ids]
+                utterance =  tokenizer.decode(utt_ids)
+                print(gt_slots)
+                print(utterance)
                 to_decode = seq[:length].tolist()
                 ref_slots.append([(utterance[id_el], elem) for id_el, elem in enumerate(gt_slots)])
                 tmp_seq = []
