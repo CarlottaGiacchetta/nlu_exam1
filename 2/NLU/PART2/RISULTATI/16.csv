@@ -44,6 +44,8 @@ Model,"BertForJointIntentAndSlot(
   (intent_classifier): Linear(in_features=768, out_features=26, bias=True)
   (slot_classifier): Linear(in_features=768, out_features=138, bias=True)
 )"
+
+
 lr,0.01
 dorp prob,0.5
 epoch,30

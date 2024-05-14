@@ -27,6 +27,9 @@ class Lang():
                 vocab[elem] = len(vocab)
         return vocab
     
+
+
+    
   
     
 
@@ -38,19 +41,22 @@ class Lang():
 '''
 class IntentsAndSlots(data.Dataset):
     # Mandatory methods are __init__, __len__ and __getitem__
-    def __init__(self, dataset, tokenizer, lang):
+    def __init__(self, dataset, tokenizer, lang, mode = None):
         self.utterances = []
         self.intents = []
         self.slots = []
         self.tokenizer = tokenizer
+        self.mde = mode
 
         for x in dataset:
  
             self.utterances.append(x['utterance'])
             self.slots.append(x['slots'])
             self.intents.append(x['intent'])
-
-        self.utt_ids, self.utt_attention = self.mapping_seq_new(self.utterances, self.tokenizer)
+        if mode == 'paper':
+            self.utt_ids, self.utt_attention = self.mapping_seq_new1(self.utterances, self.tokenizer)
+        else:
+            self.utt_ids, self.utt_attention = self.mapping_seq_new(self.utterances, self.tokenizer)
         self.slot_ids = self.mapping_seq(self.slots, lang.slot2id)
         self.intent_ids = self.mapping_lab(self.intents, lang.intent2id)
             
@@ -87,6 +93,7 @@ class IntentsAndSlots(data.Dataset):
     or using the unk token if not found.
     '''
     def mapping_seq_new(self, data, tokenizer): # Map sequences to number
+
         inputs = []
         attention = []
         max = 0
@@ -102,7 +109,42 @@ class IntentsAndSlots(data.Dataset):
             attention.append(attention_tmp)
             inputs.append(inputs_tmp)
 
+
+        print(inputs)
+        print(attention)
+
         
+        return inputs, attention
+    
+
+    def mapping_seq_new1(self, data, tokenizer): # Map sequences to number
+        inputs = []
+        attention = []
+
+        vocab = {}
+        for seq in data:
+            for word in seq.split():
+                vocab[word]  = tokenizer.encode(word)[1]            
+
+        for seq in data:
+            input_tmp = [101]
+            for word in seq.split():
+                input_tmp.append(vocab[word])
+            input_tmp.append(102)
+            inputs.append(input_tmp)
+            att = [1] * len(input_tmp)
+            attention.append(att)
+
+            if len(input_tmp) == len(att):
+                pass
+            else:
+                print(input_tmp)
+                print(len(input_tmp))
+                print(tokenizer(seq)['attention_mask'])
+                print(len(tokenizer(seq)['attention_mask']))
+
+
+
         return inputs, attention
     
 

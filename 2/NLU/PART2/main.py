@@ -25,8 +25,8 @@ PAD_TOKEN = 0
 '''
 READ FILES
 '''
-tmp_train_raw = load_data(os.path.join('dataset','ATIS','train.json'))
-test_raw = load_data(os.path.join('dataset','ATIS','test.json'))
+tmp_train_raw = load_data(os.path.join('dataset','ATIS','train.json'))[:200]
+test_raw = load_data(os.path.join('dataset','ATIS','test.json'))[:100]
 print('Train samples:', len(tmp_train_raw))
 print('Test samples:', len(test_raw))
 
@@ -55,12 +55,23 @@ print('TEST size:', len(test_raw))
 '''
 TOKENIZATION
 '''
+#mode = 'paper'
+mode = None
 
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", force_download=False) # Download the tokenizer
 model = BertModel.from_pretrained("bert-base-uncased", force_download=False) # Download the model
-train_raw1 = modify_slot(train_raw, tokenizer)
-dev_raw1 = modify_slot(dev_raw, tokenizer)
-test_raw1 = modify_slot(test_raw, tokenizer)
+
+if mode == 'paper':
+    
+    train_raw1 = train_raw
+    dev_raw1 = dev_raw
+    test_raw1 = test_raw
+
+else:
+
+    train_raw1 = modify_slot(train_raw, tokenizer)
+    dev_raw1 = modify_slot(dev_raw, tokenizer)
+    test_raw1 = modify_slot(test_raw, tokenizer)
 
 
 corpus = train_raw1 + dev_raw1 + test_raw1
@@ -68,9 +79,9 @@ intents = set([line['intent'] for line in corpus])
 slots = set(sum([line['slots'].split() for line in corpus],[]))
 lang = Lang(intents, slots,  cutoff=0)
 
-train_dataset = IntentsAndSlots(train_raw1, tokenizer, lang)
-dev_dataset = IntentsAndSlots(dev_raw1, tokenizer, lang)
-test_dataset = IntentsAndSlots(test_raw1, tokenizer, lang)
+train_dataset = IntentsAndSlots(train_raw1, tokenizer, lang, mode)
+dev_dataset = IntentsAndSlots(dev_raw1, tokenizer, lang, mode)
+test_dataset = IntentsAndSlots(test_raw1, tokenizer, lang, mode)
 train_loader = DataLoader(train_dataset, batch_size=128, collate_fn=collate_fn,  shuffle=True)
 dev_loader = DataLoader(dev_dataset, batch_size=64, collate_fn=collate_fn)
 test_loader = DataLoader(test_dataset, batch_size=64, collate_fn=collate_fn)
@@ -102,8 +113,8 @@ for sample in train_loader:
     for token_ids in sample['y_slots'].tolist():
         print(token_ids)
         print(tokenizer.decode(token_ids))
-    
 '''
+
 
 '''
 FINE TUNING
@@ -118,8 +129,10 @@ lr_list = [0.00001, 0.0001, 0.01]
 prob_drop_list = [0.1, 0.5]
 epochs_list = [10, 30, 50]
 
+lr_list = [5e-5]
 
-count = 0 
+
+count = 19
 for lr in lr_list:
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -167,7 +180,7 @@ for lr in lr_list:
             print('Intent Accuracy:', intent_test['accuracy'])
 
 
-            #SALVA I RISULTATI
+            '''#SALVA I RISULTATI
             with open(path_saveresults, mode='w', newline='') as file_csv:
                 # Crea un writer CSV
                 csv_writer = csv.writer(file_csv)
@@ -188,7 +201,7 @@ for lr in lr_list:
             plt.plot(sampled_epochs, losses_dev, label='Dev loss')
             plt.legend()
             plt.show()
-            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))
+            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))'''
         
             
                 

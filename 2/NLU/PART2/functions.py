@@ -37,8 +37,10 @@ def train_loop(data, optimizer, criterion_slots, criterion_intents, model, clip=
    
 
         loss_intent = criterion_intents(intent, sample['intent'])
+    
         
         loss_slot = criterion_slots(slots, sample['slots'])
+        
         loss = loss_intent + loss_slot # In joint training we sum the losses. 
                                        # Is there another way to do that?
         loss_array.append(loss.item())
