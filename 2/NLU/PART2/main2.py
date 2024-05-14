@@ -110,7 +110,7 @@ FINE TUNING
 '''
 criterion_slots = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 criterion_intents = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
-optimizer = torch.optim.Adam(model.parameters(), lr=3e-5)
+optimizer = torch.optim.Adam(model.parameters(), lr=5e-5)
 
 modellooo = BertForJointIntentAndSlot(model, num_intents = len(lang.intent2id), num_slots = len(lang.slot2id)).to(device)
 
@@ -119,7 +119,7 @@ patience = 3
 losses_train = []
 losses_dev = []
 sampled_epochs = []
-for x in tqdm(range(1, 200)):
+for x in tqdm(range(1, 100)):
     loss = train_loop(train_loader, optimizer, criterion_slots,
                                         criterion_intents, modellooo, clip = 5)
     if x % 5 == 0: # We check the performance every 5 epochs
