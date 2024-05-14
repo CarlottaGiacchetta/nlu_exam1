@@ -81,14 +81,16 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang, tokenizer):
 
             # Slot inference
             output_slots = torch.argmax(slots, dim=1)
+
+
             for id_seq, seq in enumerate(output_slots):
+
+
                 length = sample['slots_len'].tolist()[id_seq]
                 utt_ids = sample['utterance'][id_seq][:length].tolist()
                 gt_ids = sample['slots'][id_seq].tolist()
                 gt_slots = [lang.id2slot[elem] for elem in gt_ids[:length]]
                 utterance =  tokenizer.decode(utt_ids)
-                #print(gt_slots)
-                #print(utterance)
                 to_decode = seq[:length].tolist()
                 ref_slots.append([(utterance[id_el], elem) for id_el, elem in enumerate(gt_slots)])
                 tmp_seq = []
