@@ -88,13 +88,20 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang, tokenizer):
                 utt_ids = sample['utterance'][id_seq][:length].tolist()
                 gt_ids = sample['slots'][id_seq].tolist()
                 gt_slots = [lang.id2slot[elem] for elem in gt_ids[:length]]
-                utterance =  tokenizer.decode(utt_ids)
+                '''utterance =  tokenizer.decode(utt_ids)
+                utterance = utterance.split()'''
+
+                utterance = [elem for elem in tokenizer.convert_ids_to_tokens(utt_ids)]
+                
                 to_decode = seq[:length].tolist()
                 ref_slots.append([(utterance[id_el], elem) for id_el, elem in enumerate(gt_slots)])
+                
                 tmp_seq = []
                 for id_el, elem in enumerate(to_decode):
                     tmp_seq.append((utterance[id_el], lang.id2slot[elem]))
                 hyp_slots.append(tmp_seq)
+
+                
     try:
         results = evaluate(ref_slots, hyp_slots)
     except Exception as ex:
@@ -107,4 +114,7 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang, tokenizer):
 
     report_intent = classification_report(ref_intents, hyp_intents,
                                           zero_division=False, output_dict=True)
+    #print('\n report intent')
+    #print(report_intent)
+    
     return results, report_intent, loss_array

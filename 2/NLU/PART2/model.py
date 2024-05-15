@@ -27,10 +27,7 @@ class Lang():
                 vocab[elem] = len(vocab)
         return vocab
     
-
-
-    
-  
+ 
     
 
 '''
@@ -49,10 +46,10 @@ class IntentsAndSlots(data.Dataset):
         self.mde = mode
 
         for x in dataset:
- 
             self.utterances.append(x['utterance'])
             self.slots.append(x['slots'])
             self.intents.append(x['intent'])
+
         if mode == 'paper':
             self.utt_ids, self.utt_attention = self.mapping_seq_new1(self.utterances, self.tokenizer)
         else:
@@ -74,9 +71,6 @@ class IntentsAndSlots(data.Dataset):
         slots = torch.Tensor(self.slot_ids[idx])
         intent = self.intent_ids[idx]
         sample = {'utterance': utt, 'slots': slots, 'intent': intent, 'attention': att}
-
-        print(sample)
-        exit()
 
 
         return sample

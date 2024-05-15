@@ -125,14 +125,14 @@ criterion_intents = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 
 
 
-lr_list = [0.00001, 0.0001, 0.01]
+lr_list = [5e-5, 0.00001, 0.0001, 0.01]
 prob_drop_list = [0.1, 0.5]
 epochs_list = [10, 30, 50]
 
-lr_list = [5e-5]
 
 
-count = 50
+
+count = 0
 for lr in lr_list:
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -144,7 +144,7 @@ for lr in lr_list:
         for epoch in epochs_list:
             
 
-            path_saveresults = os.path.join('NLU','PART2','RISULTATI', f"{count}.csv")
+            path_saveresults = os.path.join('NLU','PART2','RISULTATI1', f"{count}.csv")
             count += 1
 
 
@@ -201,7 +201,7 @@ for lr in lr_list:
             plt.plot(sampled_epochs, losses_dev, label='Dev loss')
             plt.legend()
             plt.show()
-            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))
+            plt.savefig(os.path.join('NLU','PART2','RISULTATI1', f"{count}.png"))
         
             
                 
