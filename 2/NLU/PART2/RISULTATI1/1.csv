@@ -41,11 +41,11 @@ Model,"BertForJointIntentAndSlot(
     )
   )
   (dropout): Dropout(p=0.1, inplace=False)
-  (intent_classifier): Linear(in_features=768, out_features=15, bias=True)
-  (slot_classifier): Linear(in_features=768, out_features=81, bias=True)
+  (intent_classifier): Linear(in_features=768, out_features=26, bias=True)
+  (slot_classifier): Linear(in_features=768, out_features=130, bias=True)
 )"
 lr,5e-05
 dorp prob,0.1
 epoch,30
-Slot F1,0.8523206751054853
-Intent Accuracy,0.93
+Slot F1,0.9733117233927607
+Intent Accuracy,0.9664053751399776
