@@ -12,9 +12,9 @@ import numpy as np
 from transformers import BertTokenizer, BertModel
 import csv
 
-from utils import load_data, split_DevSet, dictionries, padding, collate_fn, modify_slot
+from utils import load_data, split_DevSet, collate_fn, modify_slot
 from model import Lang, IntentsAndSlots, BertForJointIntentAndSlot
-from functions import init_weights, train_loop, eval_loop
+from functions import train_loop, eval_loop
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu:0") # cuda:0 means we are using the GPU with id 0, if you have multiple GPU
@@ -67,6 +67,16 @@ if mode == 'paper':
     dev_raw1 = dev_raw
     test_raw1 = test_raw
 
+    count = 0 
+    for raw in train_raw1:
+        utt = raw['utterance'].split()
+        slot = raw['slots'].split()
+
+        if len(utt) == len(slot):
+            pass
+        else:
+            count += 1   
+
 else:
 
     train_raw1 = modify_slot(train_raw, tokenizer)
@@ -86,34 +96,6 @@ train_loader = DataLoader(train_dataset, batch_size=128, collate_fn=collate_fn, 
 dev_loader = DataLoader(dev_dataset, batch_size=64, collate_fn=collate_fn)
 test_loader = DataLoader(test_dataset, batch_size=64, collate_fn=collate_fn)
 
-
- 
-
-'''
-for sample in train_loader:
-    print(sample)
-    print('CONTROLLO UTTERANCES TOKEN')
-    print("sample['utterances']",sample['utterances'])
-    for token_ids in sample['utterances'].tolist():
-        print(token_ids)
-        print(tokenizer.decode(token_ids))
-
-    print('CONTROLLO ATTENTION')
-    print("sample['attention']",sample['attention'])
-    for attention in sample['attention']:
-        print(attention)
-    
-
-    
-    
-    print('CONTROLLO SLOT TOKEN')
-    print("sample['y_slots']", sample['y_slots'])
-
-    
-    for token_ids in sample['y_slots'].tolist():
-        print(token_ids)
-        print(tokenizer.decode(token_ids))
-'''
 
 
 '''

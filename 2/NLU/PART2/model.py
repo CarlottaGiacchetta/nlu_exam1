@@ -43,7 +43,7 @@ class IntentsAndSlots(data.Dataset):
         self.intents = []
         self.slots = []
         self.tokenizer = tokenizer
-        self.mde = mode
+        self.mode = mode
 
         for x in dataset:
             self.utterances.append(x['utterance'])
@@ -54,7 +54,7 @@ class IntentsAndSlots(data.Dataset):
             self.utt_ids, self.utt_attention = self.mapping_seq_new1(self.utterances, self.tokenizer)
         else:
             self.utt_ids, self.utt_attention = self.mapping_seq_new(self.utterances, self.tokenizer)
-        self.slot_ids = self.mapping_seq(self.slots, lang.slot2id)
+        self.slot_ids = self.mapping_seq(self.slots, self.mode, lang.slot2id)
         self.intent_ids = self.mapping_lab(self.intents, lang.intent2id)
             
 
@@ -71,7 +71,6 @@ class IntentsAndSlots(data.Dataset):
         slots = torch.Tensor(self.slot_ids[idx])
         intent = self.intent_ids[idx]
         sample = {'utterance': utt, 'slots': slots, 'intent': intent, 'attention': att}
-
 
         return sample
 
@@ -93,9 +92,6 @@ class IntentsAndSlots(data.Dataset):
 
         inputs = []
         attention = []
-        max = 0
-        for seq in data:
-            encoded = tokenizer(seq)
  
         for seq in data:
             encoded = tokenizer(seq) 
@@ -118,7 +114,8 @@ class IntentsAndSlots(data.Dataset):
         vocab = {}
         for seq in data:
             for word in seq.split():
-                vocab[word]  = tokenizer.encode(word)[1]            
+                vocab[word]  = tokenizer.encode(word)[1]   
+   
 
         for seq in data:
             input_tmp = [101]
@@ -129,28 +126,23 @@ class IntentsAndSlots(data.Dataset):
             att = [1] * len(input_tmp)
             attention.append(att)
 
-            if len(input_tmp) == len(att):
-                pass
-            else:
-                print(input_tmp)
-                print(len(input_tmp))
-                print(tokenizer(seq)['attention_mask'])
-                print(len(tokenizer(seq)['attention_mask']))
-
-
 
         return inputs, attention
     
 
-    def mapping_seq(self, data, mapper): # Map sequences to number
+    def mapping_seq(self, data, mode, mapper): # Map sequences to number
         res = []
         for seq in data:
             tmp_seq = []
+            if mode == 'paper':
+                tmp_seq = [35]
             for x in seq.split():
                 if x in mapper:
                     tmp_seq.append(mapper[x])
                 else:
                     tmp_seq.append(mapper[self.unk])
+            if mode == 'paper':
+                tmp_seq.append(35)
             res.append(tmp_seq)
         return res
     

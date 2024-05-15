@@ -30,6 +30,8 @@ def train_loop(data, optimizer, criterion_slots, criterion_intents, model, clip=
     model.train()
     loss_array = []
     for sample in data:
+    
+        
         
         #sample['attention'] = torch.stack(sample['attention'])
         optimizer.zero_grad() # Zeroing the gradient
