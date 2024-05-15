@@ -107,7 +107,7 @@ criterion_intents = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 
 
 
-lr_list = [5e-5, 5e-3, 5e-1]
+lr_list = [5e-5, 5e-3]
 prob_drop_list = [0.1, 0.5]
 epochs_list = [10, 30, 50]
 
@@ -122,11 +122,11 @@ for lr in lr_list:
         for epoch in epochs_list:
             
 
-            path_saveresults = os.path.join('NLU','PART2','RISULTATI1', f"{count}.csv")
+            path_saveresults = os.path.join('NLU','PART2','RISULTATI2', f"{count}.csv")
             count += 1
 
-            optimizer = torch.optim.Adam(model.parameters(), lr=lr)
             modellooo = BertForJointIntentAndSlot(model, num_intents = len(lang.intent2id), num_slots = len(lang.slot2id), dropout_prob = prob_drop).to(device)
+            optimizer = torch.optim.Adam(modellooo.parameters(), lr=lr)
 
             best_f1 = 0
             patience = 3
@@ -173,7 +173,7 @@ for lr in lr_list:
                 csv_writer.writerow(['Slot F1', f'{results_test["total"]["f"]}'])
                 csv_writer.writerow(['Intent Accuracy', f'{intent_test["accuracy"]}'])
 
-            plt.figure(num = 3, figsize=(8, 5)).patch.set_facecolor('white')
+            plt.figure(num = epoch, figsize=(8, 5)).patch.set_facecolor('white')
             plt.title('Train and Dev Losses')
             plt.ylabel('Loss')
             plt.xlabel('Epochs')
@@ -181,7 +181,7 @@ for lr in lr_list:
             plt.plot(sampled_epochs, losses_dev, label='Dev loss')
             plt.legend()
             plt.show()
-            plt.savefig(os.path.join('NLU','PART2','RISULTATI1', f"{count}.png"))
+            plt.savefig(os.path.join('NLU','PART2','RISULTATI2', f"{count}.png"))
         
             
                 
