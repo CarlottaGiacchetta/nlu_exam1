@@ -66,10 +66,6 @@ def eval_loop(data, criterion_slots, criterion_intents, model, lang, tokenizer):
         
             intents, slots = model(sample['utterance'], sample['attention'])
             loss_intent = criterion_intents(intents, sample['intent'])
-            #print('INIZIO CHECK SLOTS')
-            #for i, aaaa in enumerate(sample['slots']):
-            #    print(aaaa)
-            #    print(slots[i])
             loss_slot = criterion_slots(slots, sample['slots'])
             loss = loss_intent + loss_slot
             loss_array.append(loss.item())

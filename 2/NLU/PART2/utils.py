@@ -140,6 +140,8 @@ def collate_fn(data):
         # print(padded_seqs)
         padded_seqs = padded_seqs.detach()  # We remove these tensors from the computational graph
         return padded_seqs, lengths
+    
+    
     # Sort data by seq lengths
     data.sort(key=lambda x: len(x['utterance']), reverse=True) 
     new_item = {}

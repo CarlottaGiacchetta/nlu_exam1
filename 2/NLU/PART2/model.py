@@ -75,6 +75,9 @@ class IntentsAndSlots(data.Dataset):
         intent = self.intent_ids[idx]
         sample = {'utterance': utt, 'slots': slots, 'intent': intent, 'attention': att}
 
+        print(sample)
+        exit()
+
 
         return sample
 
