@@ -55,8 +55,8 @@ print('TEST size:', len(test_raw))
 '''
 TOKENIZATION
 '''
-#mode = 'paper'
-mode = None
+mode = 'paper'
+#mode = None
 
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", force_download=False) # Download the tokenizer
 model = BertModel.from_pretrained("bert-base-uncased", force_download=False) # Download the model
