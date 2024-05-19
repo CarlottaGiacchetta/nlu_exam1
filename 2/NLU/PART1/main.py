@@ -181,7 +181,7 @@ for modelloo in model_list:
                     out_int = len(lang.intent2id)
                     vocab_len = len(lang.word2id)
 
-                    n_epochs = 200
+                    n_epochs = 50
                     runs = 5
 
                     slot_f1s, intent_acc = [], []
