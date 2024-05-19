@@ -3,5 +3,5 @@ lr,1
 dorp prob,0.5
 hid size,300
 emb size,500
-Slot F1,0.7166695338035437
-Intent Accuracy,0.6864501679731243
+Slot F1,0.6711571675302245
+Intent Accuracy,0.6461366181410975
