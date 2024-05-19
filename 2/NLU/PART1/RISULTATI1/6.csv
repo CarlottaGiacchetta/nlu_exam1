@@ -1,0 +1,7 @@
+Model,<class 'model.ModelIAS'>
+lr,0.01
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.9215481171548117
+Intent Accuracy,0.9238521836506159

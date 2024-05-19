@@ -1,0 +1,7 @@
+Model,<class 'model.ModelIAS_Bidirectional_drop'>
+lr,1
+dorp prob,0.5
+hid size,200
+emb size,300
+Slot F1,0.568661630834786
+Intent Accuracy,0.7189249720044792
