@@ -107,7 +107,7 @@ criterion_intents = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 
 
 
-lr_list = [5e-5, 5e-4]
+lr_list = [5e-4]
 prob_drop_list = [0.1, 0.5]
 epochs_list = [10, 30, 50]
 
