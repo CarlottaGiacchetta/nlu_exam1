@@ -107,7 +107,7 @@ criterion_intents = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 
 
 
-lr_list = [5e-5, 5e-3]
+lr_list = [5e-5, 5e-4]
 prob_drop_list = [0.1, 0.5]
 epochs_list = [10, 30, 50]
 
@@ -122,7 +122,7 @@ for lr in lr_list:
         for epoch in epochs_list:
             
 
-            path_saveresults = os.path.join('NLU','PART2','RISULTATI2', f"{count}.csv")
+            path_saveresults = os.path.join('NLU','PART2','RISULTATI', f"{count}.csv")
             count += 1
 
             modellooo = BertForJointIntentAndSlot(model, num_intents = len(lang.intent2id), num_slots = len(lang.slot2id), dropout_prob = prob_drop).to(device)
@@ -181,7 +181,7 @@ for lr in lr_list:
             plt.plot(sampled_epochs, losses_dev, label='Dev loss')
             plt.legend()
             plt.show()
-            plt.savefig(os.path.join('NLU','PART2','RISULTATI2', f"{count}.png"))
+            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))
         
             
                 

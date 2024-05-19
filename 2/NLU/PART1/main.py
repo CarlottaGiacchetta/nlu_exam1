@@ -140,7 +140,7 @@ for modelloo in model_list:
                 model.apply(init_weights)
                 optimizer = optim.Adam(model.parameters(), lr=lr)
                 if multiple_run == False:
-                    n_epochs = 200
+                    n_epochs = 50
                     patience = 3
                     losses_train = []
                     losses_dev = []
