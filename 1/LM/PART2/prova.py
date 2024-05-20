@@ -62,7 +62,7 @@ vocab_len = len(lang.word2id)
 
 #VARIABILI CONTROLLO CICLO 
 #punto_esericizio_lista = [1, 2, 3]#
-punto_esericizio_lista = [2]
+punto_esericizio_lista = [3]
 
 
 count = 0 
