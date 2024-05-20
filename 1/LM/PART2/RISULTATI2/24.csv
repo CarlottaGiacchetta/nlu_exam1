@@ -1,0 +1,4 @@
+lr,15
+hid size,300
+emb size,300
+test perplexity,117.6747369222223
