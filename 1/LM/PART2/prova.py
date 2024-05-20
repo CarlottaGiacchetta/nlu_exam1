@@ -76,7 +76,7 @@ for punto_esericizio in punto_esericizio_lista:
                 for n_epochs in n_epochs_list:
 
 
-                    path_saveresults = os.path.join('LM','PART2','RISULTATI1', f"{count}.csv")
+                    path_saveresults = os.path.join('LM','PART2','RISULTATI2', f"{count}.csv")
                     count += 1
                     patience = 6
                     print('ESRCIZIO NUMERO: \t',punto_esericizio)
