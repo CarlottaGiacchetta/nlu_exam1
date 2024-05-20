@@ -75,7 +75,6 @@ for punto_esericizio in punto_esericizio_lista:
             for patient in patience_list:
                 for n_epochs in n_epochs_list:
 
-                    n_epochs = 2
 
                     path_saveresults = os.path.join('LM','PART2','RISULTATI1', f"{count}.csv")
                     count += 1
