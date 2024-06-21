@@ -1,0 +1,29 @@
+dorp prob,0.1
+epoch,10
+Slot F1,0.9628272815429372
+Intent Accuracy,0.9395296752519597
+
+dorp prob,0.1
+epoch,30
+Slot F1,0.9741928517438722
+Intent Accuracy,0.9361702127659575
+
+dorp prob,0.1
+epoch,50
+Slot F1,0.9745085331605098
+Intent Accuracy,0.9406494960806271
+
+dorp prob,0.5
+epoch,10
+Slot F1,0.9735449735449737
+Intent Accuracy,0.9395296752519597
+
+dorp prob,0.5
+epoch,30
+Slot F1,0.9753832865471821
+Intent Accuracy,0.9361702127659575
+
+dorp prob,0.5
+epoch,50
+Slot F1,0.9755781283769182
+Intent Accuracy,0.9417693169092946

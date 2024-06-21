@@ -11,6 +11,7 @@ from tqdm import tqdm
 import numpy as np
 from transformers import BertTokenizer, BertModel
 import csv
+import copy
 
 from utils import load_data, split_DevSet, collate_fn, modify_slot
 from model import Lang, IntentsAndSlots, BertForJointIntentAndSlot
@@ -108,8 +109,8 @@ criterion_intents = nn.CrossEntropyLoss(ignore_index=PAD_TOKEN)
 
 
 lr_list = [5e-4]
-prob_drop_list = [0.1, 0.5]
-epochs_list = [10, 30, 50]
+prob_drop_list = [0.5]
+epochs_list = [50]
 
 
 
@@ -118,6 +119,8 @@ count = 0
 for lr in lr_list:
 
     for prob_drop in prob_drop_list:
+
+        best_model = None
 
         for epoch in epochs_list:
             
@@ -154,36 +157,42 @@ for lr in lr_list:
                     if patience <= 0: # Early stopping with patience
                         break # Not nice but it keeps the code clean
 
+            best_model = copy.deepcopy(modellooo).to('cpu')
+
             results_test, intent_test, _ = eval_loop(test_loader, criterion_slots,
                                                                         criterion_intents, modellooo, lang, tokenizer)
             print('Slot F1: ', results_test['total']['f'])
             print('Intent Accuracy:', intent_test['accuracy'])
-
-
-            #SALVA I RISULTATI
-            with open(path_saveresults, mode='w', newline='') as file_csv:
-                # Crea un writer CSV
-                csv_writer = csv.writer(file_csv)
-
-                # Scrivi l'intestazione (parametri)
-                csv_writer.writerow(['Model', f'{modellooo}'])
-                csv_writer.writerow(['lr', f'{lr}'])
-                csv_writer.writerow(['dorp prob', f'{prob_drop}'])
-                csv_writer.writerow(['epoch', f'{epoch}'])
-                csv_writer.writerow(['Slot F1', f'{results_test["total"]["f"]}'])
-                csv_writer.writerow(['Intent Accuracy', f'{intent_test["accuracy"]}'])
-
-            plt.figure(num = epoch, figsize=(8, 5)).patch.set_facecolor('white')
-            plt.title('Train and Dev Losses')
-            plt.ylabel('Loss')
-            plt.xlabel('Epochs')
-            plt.plot(sampled_epochs, losses_train, label='Train loss')
-            plt.plot(sampled_epochs, losses_dev, label='Dev loss')
-            plt.legend()
-            plt.show()
-            plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))
         
+        #Dopo la fine del ciclo di addestramento, il modello migliore viene trasferito alla CPU 
+        best_model.to(device)
+        model_path = f'esperimento2.pt'
+        torch.save(model.state_dict(), model_path)
+        
+
+
+        #    #SALVA I RISULTATI
+        #    with open(path_saveresults, mode='w', newline='') as file_csv:
+        #        # Crea un writer CSV
+        #        csv_writer = csv.writer(file_csv)
+#
+        #        # Scrivi l'intestazione (parametri)
+        #        csv_writer.writerow(['Model', f'{modellooo}'])
+        #        csv_writer.writerow(['lr', f'{lr}'])
+        #        csv_writer.writerow(['dorp prob', f'{prob_drop}'])
+        #        csv_writer.writerow(['epoch', f'{epoch}'])
+        #        csv_writer.writerow(['Slot F1', f'{results_test["total"]["f"]}'])
+        #        csv_writer.writerow(['Intent Accuracy', f'{intent_test["accuracy"]}'])
+#
+        #    plt.figure(num = epoch, figsize=(8, 5)).patch.set_facecolor('white')
+        #    plt.title('Train and Dev Losses')
+        #    plt.ylabel('Loss')
+        #    plt.xlabel('Epochs')
+        #    plt.plot(sampled_epochs, losses_train, label='Train loss')
+        #    plt.plot(sampled_epochs, losses_dev, label='Dev loss')
+        #    plt.legend()
+        #    plt.show()
+        #    plt.savefig(os.path.join('NLU','PART2','RISULTATI', f"{count}.png"))
             
-                
             
 
